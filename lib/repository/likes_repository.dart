@@ -9,6 +9,13 @@ class LikesRepository {
   /// Hive box initializer; opens the hive box with the liked photo
   static Future<Box> openHiveBox() async => await Hive.openBox(LikesRepository.kLikesBoxName);
 
+  /// Stream of liked values per key
+  Stream<bool> watchKeyIsLiked({required int key}) {
+    return Hive.box(kLikesBoxName)
+        .watch(key: key)
+        .map((likeBoxEvent) => (likeBoxEvent.value == null) ? false : likeBoxEvent.value);
+  }
+
   /// Check if photo with this key is liked; fall backs to false if the key was not found
   bool isLiked({required int key}) {
     return Hive.box(kLikesBoxName).get(key, defaultValue: false);
