@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '/bloc/connectivity_cubit.dart';
 import '/bloc/photo_bloc/photo_bloc.dart';
 import 'error_page.dart';
@@ -30,14 +31,14 @@ class HomePage extends StatelessWidget {
                   if (state is LoadedPhotoState) {
                     return PhotoListPage(photos: state.photos);
                   }
-                  return const CircularProgressIndicator();
+                  return const Center(child: CircularProgressIndicator());
                 },
               );
             }
             if (state is Disconnected) {
               return const Center(child: Text(kDisconnectedError));
             }
-            return const CircularProgressIndicator();
+            return const Center(child: CircularProgressIndicator());
           },
         ),
       ),
