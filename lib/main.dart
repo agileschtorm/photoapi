@@ -12,11 +12,11 @@ import 'ui/home_page.dart';
 
 Future<void> main() async {
   await initialize();
-  runApp(const PhotoApiApp());
+  final likesBox = await initializeHive();
+  runApp(PhotoApiApp(box: likesBox));
 }
 
 Future<void> initialize() async {
-  //Init widgets
   WidgetsFlutterBinding.ensureInitialized();
 
   //Init Logger
@@ -29,21 +29,23 @@ Future<void> initialize() async {
       print('ERROR: ${record.error}, ${record.stackTrace}');
     }
   });
+}
 
-  //Init Hive
+Future<Box> initializeHive() async {
   await Hive.initFlutter();
-  await LikesRepository.openHiveBox();
+  return await LikesRepository.openHiveBox();
 }
 
 class PhotoApiApp extends StatelessWidget {
-  const PhotoApiApp({Key? key}) : super(key: key);
+  const PhotoApiApp({Key? key, required this.box}) : super(key: key);
+  final Box box;
 
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
         providers: [
           RepositoryProvider(create: (context) => PhotoRepository()),
-          RepositoryProvider(create: (context) => LikesRepository()),
+          RepositoryProvider(create: (context) => LikesRepository(box: box)),
           RepositoryProvider(create: (context) => Connectivity()),
         ],
         child: MultiBlocProvider(

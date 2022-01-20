@@ -28,7 +28,10 @@ class ConnectivityCubit extends Cubit<ConnectivityState> {
   late StreamSubscription connectivityStreamSubscription;
   ConnectivityCubit({required this.connectivity}) : super(const Connecting()) {
     connectivityStreamSubscription = connectivity.onConnectivityChanged.listen((connectivityResult) {
-      if (connectivityResult == ConnectivityResult.wifi || connectivityResult == ConnectivityResult.mobile) {
+      if (connectivityResult == ConnectivityResult.wifi ||
+          connectivityResult == ConnectivityResult.mobile ||
+          connectivityResult == ConnectivityResult.ethernet ||
+          connectivityResult == ConnectivityResult.bluetooth) {
         emit(const Connected());
       } else if (connectivityResult == ConnectivityResult.none) {
         emit(const Disconnected());
