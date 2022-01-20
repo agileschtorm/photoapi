@@ -26,7 +26,7 @@ class HomePage extends StatelessWidget {
               return BlocBuilder<PhotoBloc, PhotoState>(
                 builder: (context, state) {
                   if (state is ErrorPhotoState) {
-                    return ErrorPage(error: state.error);
+                    return ErrorPage(key: kErrorPageKey, error: state.error);
                   }
                   if (state is LoadedPhotoState) {
                     return PhotoListPage(photos: state.photos);

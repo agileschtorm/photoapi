@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '/bloc/photo_bloc/photo_bloc.dart';
+
+const kErrorPageKey = Key('__error_page_key__');
+const kGestureDetectorErrorPageKey = Key('__gesture_detector_error_page_key__');
 
 class ErrorPage extends StatelessWidget {
   const ErrorPage({Key? key, this.error}) : super(key: key);
@@ -10,6 +14,7 @@ class ErrorPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox.expand(
       child: GestureDetector(
+        key: kGestureDetectorErrorPageKey,
         onTap: () => context.read<PhotoBloc>().add(const LoadPhotoEvent()),
         child: SingleChildScrollView(
           child: Center(
